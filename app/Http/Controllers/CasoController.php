@@ -11,6 +11,7 @@ class CasoController extends Controller
 {
     public function apiObtenerCasosUsuario()
     {
+
         if (auth()->user()->user_rol_id == 3) {
             $casos = Caso::where('user_contact_id', auth()->user()->id)->orderBy('id', 'DESC')->get();
         } else {
@@ -20,6 +21,10 @@ class CasoController extends Controller
 
         $datos = [];
         foreach ($casos as $caso) {
+            if ($caso->status_id == null) {
+                $caso->status_id = 1;
+                $caso->save();
+            }
             $seguimientos_datos = [];
             $seguimientos = SeguimientoCaso::where('case_id', $caso->id)->orderBy('id', 'DESC')->get();
             foreach ($seguimientos as $seguimiento) {
