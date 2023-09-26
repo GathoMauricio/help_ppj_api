@@ -50,9 +50,9 @@ class UserController extends Controller
     public function apiLogout()
     {
         // eliminar todas las sesiones
-        auth()->user()->tokens()->delete();
+        //auth()->user()->tokens()->delete();
         //eliminar sesión actual
-        //auth()->user()->currentAccessToken()->delete();
+        auth()->user()->currentAccessToken()->delete();
         return response()->json([
             "estatus" => 1,
             "mensaje" => "La sesión se cerró exitosamente.",
