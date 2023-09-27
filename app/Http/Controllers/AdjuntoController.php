@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ArchivoCaso;
+use App\Http\Controllers\NotificacionController;
 
 class AdjuntoController extends Controller
 {
@@ -25,6 +26,13 @@ class AdjuntoController extends Controller
             $archivoCaso->name = $nombreArchivo;
             $archivoCaso->save();
             \File::put(storage_path($ruta . $nombreArchivo), base64_decode($archivo));
+            $data = [
+                'case_id' => $archivoCaso->caso->case_id,
+                'num_case' => $archivoCaso->caso->num_case,
+                'url_image' => 'http://' . env('SERVER_URL') . env('FILES_PATH') . $nombreArchivo,
+                'user_contact_id' => $archivoCaso->caso->user_contact_id,
+            ];
+            NotificacionController::notificacionNuevoAdjunto($data);
             return response()->json([
                 'estatus' => 1,
                 'mensaje' => 'Archivo almacenado'

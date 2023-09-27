@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Caso;
 use App\Models\SeguimientoCaso;
 use App\Models\ArchivoCaso;
+use App\Http\Controllers\NotificacionController;
 
 class CasoController extends Controller
 {
@@ -125,7 +126,12 @@ class CasoController extends Controller
             'description' => $request->descripcion,
         ]);
         if ($caso) {
-            #TODO: Notificar via email a los usuarios correspondientes
+            $data = [
+                'case_id' => $caso->id,
+                'num_case' => $caso->num_case,
+                'description' => $caso->description,
+            ];
+            NotificacionController::notificacionNuevoCaso($data);
             return response()->json([
                 'estatus' => 1,
                 'mensaje' => 'El caso se creo correctamente con el folio ' . $caso->num_case,
