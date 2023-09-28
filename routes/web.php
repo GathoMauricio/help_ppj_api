@@ -8,3 +8,4 @@ Route::get('login', function () {
         'type' => 'Unauthorized'
     ]);
 })->name('login');
+Route::get('generar_password/{token}', [\App\Http\Controllers\UserController::class, 'generarPassword']);
