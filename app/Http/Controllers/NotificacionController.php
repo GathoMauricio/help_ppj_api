@@ -78,6 +78,28 @@ class NotificacionController extends Controller
             ])
             ->sendNotification($array_tokens);
     }
+    static function notificacionCambioEstatuso(array $data)
+    {
+        # La notificación le llegará a los usuarios activos, que su token no sea nulo,
+        #que sea quien creo el caso o que sea admin o soporte con la url de la imagen almacenada
+        $users = User::where('status', 'Activo')->whereNotNull('fcm_token')->where(function ($q) use ($data) {
+            $q->where('user_rol_id', 1);
+            $q->orWhere('user_rol_id', 2);
+            $q->orWhere('id', $data['user_contact_id']);
+        })->get();
+        $tokens = $users->pluck('fcm_token');
+        $array_tokens = [];
+        foreach ($tokens as $token) {
+            $array_tokens[] = $token;
+        }
+        return Larafirebase::withTitle('Se cambió el estatus del caso : ' . $data['num_case'])
+            ->withBody('El caso se encuentra: ' . $data['estatus'])
+            ->withAdditionalData([
+                'case_id' => $data['case_id'],
+                'type' => 'Se cambió el estatus del caso : ' . $data['num_case'],
+            ])
+            ->sendNotification($array_tokens);
+    }
     public function apiActualizarFcm(Request $request)
     {
         $user = User::find(auth()->user()->id);

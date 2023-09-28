@@ -19,4 +19,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('api-guardar-seguimiento', [\App\Http\Controllers\SeguimientoCasoController::class, 'apiGuardarSeguimiento']);
     Route::post('api-adjuntar-archivo', [\App\Http\Controllers\AdjuntoController::class, 'apiAdjuntarArchivo']);
     Route::post('api-actualizar-fcm', [\App\Http\Controllers\NotificacionController::class, 'apiActualizarFcm']);
+    Route::post('api-actualizar-estatus-ticket', [\App\Http\Controllers\CasoController::class, 'apiActualizarEstatusTicket']);
 });

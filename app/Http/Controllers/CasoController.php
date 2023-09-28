@@ -172,4 +172,44 @@ class CasoController extends Controller
                 break;
         }
     }
+    public function apiActualizarEstatusTicket(Request $request)
+    {
+        $caso = Caso::find($request->case_id);
+        $caso->status_id = $this->estatusToId($request->estatus);
+        if ($caso->save()) {
+            $data = [
+                'case_id' => $caso->case_id,
+                'num_case' => $caso->num_case,
+                'estatus' => $request->estatus,
+                'user_contact_id' => $caso->user_contact_id
+            ];
+            NotificacionController::notificacionCambioEstatuso($data);
+            return response()->json([
+                'estatus' => 1,
+                'mensaje' => 'El estatus se actualizó correctamente ' . $caso->num_case,
+                'ticket' => $caso
+            ]);
+        } else {
+            return response()->json([
+                'estatus' => 0,
+                'mensaje' => 'Fallo al actualizar el registro'
+            ]);
+        }
+        return $request;
+    }
+
+    private function estatusToId($estatus)
+    {
+        switch ($estatus) {
+            case 'Pendiente':
+                return 1;
+                break;
+            case 'En progreso':
+                return 2;
+                break;
+            case 'Cerrada':
+                return 3;
+                break;
+        }
+    }
 }
