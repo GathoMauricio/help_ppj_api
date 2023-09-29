@@ -14,6 +14,7 @@ class Caso extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'area_id',
         'num_case',
         'status_id',
         'service_id',

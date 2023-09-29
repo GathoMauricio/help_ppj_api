@@ -7,25 +7,40 @@ use App\Models\Caso;
 use App\Models\SeguimientoCaso;
 use App\Models\ArchivoCaso;
 use App\Http\Controllers\NotificacionController;
+use App\Models\TipoServicio;
 
 class CasoController extends Controller
 {
-    public function apiObtenerCasosUsuario()
+    public function apiObtenerCasosUsuario(Request $request)
     {
-
-        if (auth()->user()->user_rol_id == 3) {
-            $casos = Caso::where('user_contact_id', auth()->user()->id)->orderBy('id', 'DESC')->get();
-        } else {
-            $casos = Caso::orderBy('id', 'DESC')->limit(50)->get();
+        $casos = Caso::where('status_id', '<', 3);
+        $areas = explode(',', $request->selected_areas);
+        $areas = array_diff($areas, array("", 0, null));
+        //return $areas;
+        if (count($areas) > 0) {
+            $casos = $casos->where(function ($q) use ($areas) {
+                foreach ($areas as $area) {
+                    $q->orWhere('area_id', $area);
+                }
+            });
         }
-
+        if (auth()->user()->user_rol_id == 3) {
+            $casos = $casos->where('user_contact_id', auth()->user()->id)->orderBy('id', 'DESC');
+        } else {
+            $casos = $casos->orderBy('id', 'DESC')->limit(50);
+        }
+        // $casos = $casos->toSql();
+        // return $casos;
+        $casos = $casos->get();
 
         $datos = [];
         foreach ($casos as $caso) {
+            $tipoServicio = TipoServicio::find($caso->service_id);
+            $caso->area_id = $tipoServicio->area->id;
             if ($caso->status_id == null) {
                 $caso->status_id = 1;
-                $caso->save();
             }
+            $caso->save();
             $seguimientos_datos = [];
             $seguimientos = SeguimientoCaso::where('case_id', $caso->id)->orderBy('id', 'DESC')->get();
             foreach ($seguimientos as $seguimiento) {
@@ -117,7 +132,9 @@ class CasoController extends Controller
 
     public function apiGuardarCaso(Request $request)
     {
+        $tipoServicio = TipoServicio::find($request->tipoServicioId);
         $caso = Caso::create([
+            'area_id' => $tipoServicio->area->id,
             'num_case' => $this->generaFolio(),
             'status_id' => 1,
             'service_id' => $request->tipoServicioId,

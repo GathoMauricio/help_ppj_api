@@ -18,10 +18,11 @@
     <br>
     Se ha solicitado reestablecer su contraseña atravéz del portal movil <b>My HelpDesk PJ</b>
     <br>
-    Para continuar por favor precione <a href="{{ $data['enlace'] }}">AQUÍ</a> o copie y pegue en el navegador el
+    Para continuar por favor precione <a href="{{ $data['enlace'] }}">AQUÍ</a>
+    {{--  o copie y pegue en el navegador el
     siguiente enlace:
     <br>
-    {{ $data['enlace'] }}
+    {{ $data['enlace'] }}  --}}
     <br><br>
     <small>
         <p>
@@ -29,6 +30,8 @@
             haber escrito por error
         </p>
     </small>
+    <br>
+    <small><b>Este correo ha sido generado automáticamente favor de no responder.</b></small>
 </body>
 
 </html>

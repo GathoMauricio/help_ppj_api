@@ -25,6 +25,8 @@
     </b>
     <br>
     Por favor considere actualizar su password lo antes posible desde el portal móvil.
+    <br>
+    <small><b>Este correo ha sido generado automáticamente favor de no responder.</b></small>
 </body>
 
 </html>

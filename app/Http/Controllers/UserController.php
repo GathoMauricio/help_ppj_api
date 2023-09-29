@@ -79,9 +79,9 @@ class UserController extends Controller
                 'user' => $user,
                 'enlace' => 'http://' . env('SERVER_URL') . '/help_ppj_api/public/generar_password/' . $api_token
             ];
-            \Mail::send('emails.solicitud_password', ['data' => $data], function ($mail) {
+            \Mail::send('emails.solicitud_password', ['data' => $data], function ($mail) use ($user) {
                 $mail->from('my_heldesk_pj@papajohnsmexico.com', env('APP_NAME'));
-                $mail->to(['contacto@mail.com']);
+                $mail->to([$user->email]);
                 //$mail->attachData($pdf->output(), 'Cotizacion_' . $sale->id . '.pdf');
             });
             return response()->json([
@@ -108,14 +108,40 @@ class UserController extends Controller
                 'user' => $user,
                 'temporal_pass' => $passwordTemporal
             ];
-            \Mail::send('emails.generar_password', ['data' => $data], function ($mail) {
+            \Mail::send('emails.generar_password', ['data' => $data], function ($mail) use ($user) {
                 $mail->from('my_heldesk_pj@papajohnsmexico.com', env('APP_NAME'));
-                $mail->to(['contacto@mail.com']);
+                $mail->to([$user->email]);
                 //$mail->attachData($pdf->output(), 'Cotizacion_' . $sale->id . '.pdf');
             });
             return "<script>alert('Por favor revise su bandeja de entrada');window.location = 'https://google.com';</script>";
         } else {
             return "<script>alert('La solicitud es incorrecta');window.location = 'https://google.com';</script>";
         }
+    }
+
+    public function apiActualizarPassword(Request $request)
+    {
+        $user = User::where('email', auth()->user()->email)->first();
+        if ($user) {
+            if (\Hash::check($request->current_password, $user->password)) {
+                $user->password = bcrypt($request->new_password);
+                $user->save();
+                return response()->json([
+                    "estatus" => 1,
+                    "mensaje" => "Su password ha sido actualizado."
+                ]);
+            } else {
+                return response()->json([
+                    "estatus" => 0,
+                    "mensaje" => "El password actual es incorrecto"
+                ]);
+            }
+        } else {
+            return response()->json([
+                "estatus" => 0,
+                "mensaje" => "error al validar el usuario."
+            ]);
+        }
+        //return $request;
     }
 }

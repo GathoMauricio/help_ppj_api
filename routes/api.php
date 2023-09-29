@@ -11,7 +11,7 @@ Route::get('api-descargar-android-app', [\App\Http\Controllers\AppController::cl
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('api-datos-usuario', [\App\Http\Controllers\UserController::class, 'apiDatosUsuario']);
     Route::get('api-logout', [\App\Http\Controllers\UserController::class, 'apiLogout']);
-    Route::get('api-obtener-casos-usuario', [\App\Http\Controllers\CasoController::class, 'apiObtenerCasosUsuario']);
+    Route::post('api-obtener-casos-usuario', [\App\Http\Controllers\CasoController::class, 'apiObtenerCasosUsuario']);
     Route::get('api-obtener-info-caso', [\App\Http\Controllers\CasoController::class, 'apiObtenerInfoCaso']);
     Route::post('api-ultima-version-android', [\App\Http\Controllers\AppController::class, 'apiUltimaVersionAndroid']);
     Route::get('api-obtener-areas', [\App\Http\Controllers\AreaController::class, 'apiObtenerAreas']);
@@ -22,4 +22,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('api-adjuntar-archivo', [\App\Http\Controllers\AdjuntoController::class, 'apiAdjuntarArchivo']);
     Route::post('api-actualizar-fcm', [\App\Http\Controllers\NotificacionController::class, 'apiActualizarFcm']);
     Route::post('api-actualizar-estatus-ticket', [\App\Http\Controllers\CasoController::class, 'apiActualizarEstatusTicket']);
+    Route::post('api-actualizar-password', [\App\Http\Controllers\UserController::class, 'apiActualizarPassword']);
 });
