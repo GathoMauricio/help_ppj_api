@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Download;
 
 class AppController extends Controller
 {
@@ -15,9 +16,10 @@ class AppController extends Controller
         ]);
     }
 
-    public function descargarAndroidApp()
+    public function descargarAndroidApp(Request $request)
     {
         //return response()->download(storage_path('app/public/android_app/mesa_ayuda_' . env('ANDROID_VERSION') . '.apk'));
+        Download::create(['ip' => $request->ip()]);
         return response()->download(storage_path('app/public/android_app/mesa_ayuda_0_0_3.apk'));
     }
 }
