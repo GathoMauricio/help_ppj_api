@@ -19,7 +19,7 @@ class AppController extends Controller
     public function descargarAndroidApp(Request $request)
     {
         //return response()->download(storage_path('app/public/android_app/mesa_ayuda_' . env('ANDROID_VERSION') . '.apk'));
-        Download::create(['ip' => $request->ip()]);
+        Download::create(['ip' => $request->ip(), 'version' => '0.0.3']);
         return response()->download(storage_path('app/public/android_app/mesa_ayuda_0_0_3.apk'));
     }
 }

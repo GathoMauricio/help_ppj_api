@@ -14,6 +14,7 @@ class Download extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'ip'
+        'ip',
+        'version'
     ];
 }
