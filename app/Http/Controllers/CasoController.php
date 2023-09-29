@@ -27,7 +27,7 @@ class CasoController extends Controller
         if (auth()->user()->user_rol_id == 3) {
             $casos = $casos->where('user_contact_id', auth()->user()->id)->orderBy('id', 'DESC');
         } else {
-            $casos = $casos->orderBy('id', 'DESC')->limit(500);
+            $casos = $casos->orderBy('id', 'DESC');
         }
         // $casos = $casos->toSql();
         // return $casos;
