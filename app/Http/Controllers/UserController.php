@@ -77,13 +77,14 @@ class UserController extends Controller
 
             $data = [
                 'user' => $user,
-                'enlace' => 'http://' . env('SERVER_URL') . '/help_ppj_api/public/generar_password/' . $api_token
+                'enlace' => 'http://dotech.dyndns.biz:16666/help_ppj_api/public/generar_password/' . $api_token
             ];
-            \Mail::send('emails.solicitud_password', ['data' => $data], function ($mail) use ($user) {
+            $respuesta = \Mail::send('emails.solicitud_password', ['data' => $data], function ($mail) use ($user) {
                 $mail->from('my_heldesk_pj@papajohnsmexico.com', env('APP_NAME'));
                 $mail->to([$user->email]);
                 //$mail->attachData($pdf->output(), 'Cotizacion_' . $sale->id . '.pdf');
             });
+            \Log($respuesta);
             return response()->json([
                 "estatus" => 1,
                 "mensaje" => "El correo de confirmación ha sido enviado, por favor revise su bandeja de entrada.",
