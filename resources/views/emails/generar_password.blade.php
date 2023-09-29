@@ -16,7 +16,7 @@
     <br><br>
     Estimad@ <b>{{ $data['user']->name }} {{ $data['user']->middle_name }}</b>
     <br>
-    Le hemos generado un password temporal apartír de su solicitud:
+    Le hemos generado un password temporal atravéz del portal movil <b>My HelpDesk PJ</b>
     <br>
     <b>
         Email: {{ $data['user']->email }}

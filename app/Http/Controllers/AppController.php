@@ -10,7 +10,7 @@ class AppController extends Controller
     {
         return response()->json([
             'estatus' => 1,
-            'última_version' => '0_0_2',
+            'última_version' => '0_0_3',
             //'última_version' => env('ANDROID_VERSION'),
         ]);
     }
@@ -18,6 +18,6 @@ class AppController extends Controller
     public function descargarAndroidApp()
     {
         //return response()->download(storage_path('app/public/android_app/mesa_ayuda_' . env('ANDROID_VERSION') . '.apk'));
-        return response()->download(storage_path('app/public/android_app/mesa_ayuda_0_0_2.apk'));
+        return response()->download(storage_path('app/public/android_app/mesa_ayuda_0_0_3.apk'));
     }
 }
