@@ -76,6 +76,7 @@ class CasoController extends Controller
                 'folio' => $caso->num_case,
                 'prioridad' => $caso->prioridad->name,
                 'descripcion' => $caso->description,
+                'created_at' => $caso->created_at,
                 'seguimientos' => $seguimientos_datos,
                 'archivos' => $archivos_datos,
             ];
@@ -125,6 +126,7 @@ class CasoController extends Controller
             'folio' => $caso->num_case,
             'prioridad' => $caso->prioridad->name,
             'descripcion' => $caso->description,
+            'created_at' => $caso->created_at,
             'seguimientos' => $seguimientos_datos,
             'archivos' => $archivos_datos,
         ]);
