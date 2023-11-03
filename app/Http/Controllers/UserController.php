@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserRol;
 
 class UserController extends Controller
 {
@@ -144,5 +145,114 @@ class UserController extends Controller
             ]);
         }
         //return $request;
+    }
+
+    public function index()
+    {
+        $usuarios = User::paginate(10);
+        return view('usuarios.index', compact('usuarios'));
+    }
+
+    public function create()
+    {
+        $roles = UserRol::all();
+        return view('usuarios.create', compact('roles'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user_rol_id' => 'required',
+            'status' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|confirmed|min:6',
+            'password_confirmation' => 'required',
+        ], [
+            'user_rol_id.required' => 'Campo obligatorio',
+            'status.required' => 'Campo obligatorio',
+            'name.required' => 'Campo obligatorio',
+            'email.required' => 'Campo obligatorio',
+            'password.required' => 'Campo obligatorio',
+            'password.confirmed' => 'La confirmación no coincide',
+            'password.min' => 'El password debe ser de 6 caracteres como mínimo',
+            'password_confirmation.required' => 'Campo obligatorio',
+        ]);
+
+        $usuario = User::create([
+            'user_rol_id' => $request->user_rol_id,
+            'status' => $request->status,
+            'name' => $request->name,
+            'username' => $request->name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'password' => bcrypt($request->password),
+            'centro_costo' => $request->centro_costo,
+        ]);
+
+        if ($usuario) {
+            return redirect()->route('index_usuarios')->with('message', 'El usuario ' . $usuario->email . ' se creó con éxito.');
+        }
+    }
+
+    public function edit($id)
+    {
+        $roles = UserRol::all();
+        $usuario = User::findOrFail($id);
+        return view('usuarios.edit', compact('roles', 'usuario'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'user_rol_id' => 'required',
+            'status' => 'required',
+            'name' => 'required',
+        ], [
+            'user_rol_id.required' => 'Campo obligatorio',
+            'status.required' => 'Campo obligatorio',
+            'name.required' => 'Campo obligatorio',
+        ]);
+        $usuario = User::findOrFail($id);
+        if ($usuario->update($request->all())) {
+            return redirect()->route('index_usuarios')->with('message', 'El usuario ' . $usuario->email . ' se actualizó con éxito.');
+        }
+    }
+
+    public function editPassword($id)
+    {
+        $usuario = User::findOrFail($id);
+        return view('usuarios.edit_password', compact('usuario'));
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|confirmed|min:6',
+            'password_confirmation' => 'required',
+        ], [
+            'password.required' => 'Campo obligatorio',
+            'password.confirmed' => 'La confirmación no coincide',
+            'password.min' => 'El password debe ser de 6 caracteres como mínimo',
+            'password_confirmation.required' => 'Campo obligatorio',
+        ]);
+        $usuario = User::findOrFail($id);
+        $usuario->password = bcrypt($request->password);
+        if ($usuario->save())
+            return redirect()->route('index_usuarios')->with('message', 'El password del usuario ' . $usuario->email . ' se actualizó con éxito.');
+    }
+
+    public function delete(Request $request)
+    {
+        $usuario = User::findOrFail($request->usuario_id);
+        if ($usuario->delete()) {
+            return response()->json([
+                'status' => 1,
+                'message' => "Usuario eliminado"
+            ]);
+        }
     }
 }
