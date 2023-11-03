@@ -33,8 +33,13 @@
                                     <tr>
                                         <th>{{ $caso->num_case }}</th>
                                         <td>{{ $caso->estatus->name }}</td>
-                                        <td>{{ $caso->contacto->name }} {{ $caso->contacto->middle_name }}
-                                            {{ $caso->contacto->last_name }}</td>
+                                        <td>
+                                            {{ $caso->contacto->name }}
+                                            {{ $caso->contacto->middle_name }}
+                                            {{ $caso->contacto->last_name }}
+                                            <br>
+                                            {{ $caso->contacto->centro_costo }}
+                                        </td>
                                         <td>{{ $caso->tipo_servicio->area->name }}</td>
                                         <td>{{ $caso->tipo_servicio->name }}</td>
                                         <td>{{ $caso->description }}</td>
