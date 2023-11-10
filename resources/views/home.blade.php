@@ -9,7 +9,9 @@
                         <b style="color:rgb(234,81,70);">Mis casos</b>
                         <br>
                         <a href="{{ url('api/api-descargar-android-app') }}" target="_BLANK">Descargar APK</a>
-                        <a href="{{ url('create_caso') }}" class="btn btn-primary" style="float: right;">Iniciar caso</a>
+                        @if (Auth::user()->user_rol_id == 3)
+                            <a href="{{ url('create_caso') }}" class="btn btn-primary" style="float: right;">Iniciar caso</a>
+                        @endif
                     </div>
                     <div class="card-body" style="background-color: rgb(43,51,60)">
                         <div style="float: right;">
@@ -50,7 +52,7 @@
                                             <br>
                                             <a href="javascript:void(0);" onclick="cargarAdjuntos({{ $caso->id }})"
                                                 class="text-info">({{ count($caso->archivos) }})Adjuntos</a>
-                                            @if (Auth::user()->user_rol_id == 1)
+                                            @if (Auth::user()->user_rol_id == 4)
                                                 <br>
                                                 <a href="{{ url('edit_caso', $caso->id) }}" class="text-warning">Editar</a>
                                                 <br>

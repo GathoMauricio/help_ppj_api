@@ -7,8 +7,10 @@
                 <div class="card">
                     <div class="card-header">
                         <b style="color:rgb(234,81,70);">Usuarios</b>
-                        <a href="{{ url('create_usuarios') }}" class="btn btn-primary" style="float: right;">Agregar
-                            usuario</a>
+                        @if (Auth::user()->user_rol_id == 4)
+                            <a href="{{ url('create_usuarios') }}" class="btn btn-primary" style="float: right;">Agregar
+                                usuario</a>
+                        @endif
                     </div>
                     <div class="card-body" style="background-color: rgb(43,51,60);">
                         {{ $usuarios->links('pagination::bootstrap-4') }}
@@ -40,9 +42,11 @@
                                             <br>
                                             <a href="{{ url('edit_password_usuarios', $usuario->id) }}"
                                                 class="text-warning">Password</a>
-                                            <br>
-                                            <a href="javascript:void(0)" onclick="eliminarUsuario({{ $usuario->id }})"
-                                                class="text-danger">Eliminar</a>
+                                            @if (Auth::user()->user_rol_id == 4)
+                                                <br>
+                                                <a href="javascript:void(0)" onclick="eliminarUsuario({{ $usuario->id }})"
+                                                    class="text-danger">Eliminar</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
