@@ -41,6 +41,10 @@ Route::delete('delete_usuarios', [App\Http\Controllers\UserController::class, 'd
 Route::get('edit_password_usuarios/{id}', [App\Http\Controllers\UserController::class, 'editPassword'])->middleware(App\Http\Middleware\IsAdminMiddleware::class);
 Route::put('update_password_usuarios/{id}', [App\Http\Controllers\UserController::class, 'updatePassword'])->middleware(App\Http\Middleware\IsAdminMiddleware::class);
 
+Route::get('index_reportes', [App\Http\Controllers\ReportesController::class, 'index']);
+Route::post('generar_reporte', [App\Http\Controllers\ReportesController::class, 'generarReporte']);
+
+
 Route::any('/', function () {
 })->name('/');
 Route::get('/', function () {
