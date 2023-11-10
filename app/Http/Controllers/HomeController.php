@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Caso;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -25,12 +26,13 @@ class HomeController extends Controller
     public function index()
     {
         $casos = Caso::where('status_id', '<', 3);
+        $tecnicos = User::where('user_rol_id', 2)->get();
         if (auth()->user()->user_rol_id == 3) {
             $casos = $casos->where('user_contact_id', auth()->user()->id)->orderBy('id', 'DESC');
         } else {
             $casos = $casos->orderBy('id', 'DESC');
         }
         $casos = $casos->paginate(10);
-        return view('home', compact('casos'));
+        return view('home', compact('casos', 'tecnicos'));
     }
 }

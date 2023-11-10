@@ -410,4 +410,15 @@ class CasoController extends Controller
             return $archivo;
         }
     }
+
+    public function asignarCaso(Request $request)
+    {
+        $caso = Caso::findOrFail($request->caso_id);
+        $caso->user_support_id = $request->tecnico_id;
+        if ($caso->save()) {
+            return redirect()->back()->with('message', 'El tecnico se asigno correctamente al caso ' . $caso->num_case . '.');
+        } else {
+            return redirect()->back()->with('message', 'Ocurrió un error al asignar el caso');
+        }
+    }
 }

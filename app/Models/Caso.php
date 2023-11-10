@@ -19,6 +19,7 @@ class Caso extends Model
         'status_id',
         'service_id',
         'user_contact_id',
+        'user_support_id',
         'priority_case_id',
         'description',
     ];
@@ -28,6 +29,16 @@ class Caso extends Model
         return $this->belongsTo(
             'App\Models\User',
             'user_contact_id',
+            'id'
+        )
+            ->withDefault();
+    }
+
+    public function soporte()
+    {
+        return $this->belongsTo(
+            'App\Models\User',
+            'user_support_id',
             'id'
         )
             ->withDefault();

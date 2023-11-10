@@ -8,6 +8,7 @@
             <th>Tipo</th>
             <th>Descripción</th>
             <th>Gerente/Sucursal</th>
+            <th>Soporte asignado</th>
             {{--  <th>Zona</th>  --}}
             <th>N° Seguimientos</th>
             <th>N° Adjuntos</th>
@@ -24,6 +25,7 @@
                 <td>{{ $caso->tipo_servicio->name }}</td>
                 <td>{{ $caso->description }}</td>
                 <td>{{ $caso->contacto->name }}</td>
+                <td>{{ $caso->soporte->name }} {{ $caso->soporte->middle_name }} {{ $caso->soporte->last_name }}</td>
                 {{--  <td>{{ $caso->contacto->zona }}</td>  --}}
                 <td>{{ $caso->seguimientos->count() }}</td>
                 <td>{{ $caso->archivos->count() }}</td>

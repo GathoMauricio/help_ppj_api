@@ -44,6 +44,7 @@ Route::put('update_password_usuarios/{id}', [App\Http\Controllers\UserController
 Route::get('index_reportes', [App\Http\Controllers\ReportesController::class, 'index']);
 Route::post('generar_reporte', [App\Http\Controllers\ReportesController::class, 'generarReporte']);
 
+Route::put('asignar_caso', [App\Http\Controllers\CasoController::class, 'asignarCaso']);
 
 Route::any('/', function () {
 })->name('/');

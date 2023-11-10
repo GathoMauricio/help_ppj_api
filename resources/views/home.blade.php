@@ -23,6 +23,7 @@
                                     <th>Folio</th>
                                     <th>Estatus</th>
                                     <th>Contacto</th>
+                                    <th>Técnico</th>
                                     <th>Área</th>
                                     <th>Tipo</th>
                                     <th>Descripción</th>
@@ -42,6 +43,11 @@
                                             <br>
                                             {{ $caso->contacto->centro_costo }}
                                         </td>
+                                        <td>
+                                            {{ $caso->soporte->name }}
+                                            {{ $caso->soporte->middle_name }}
+                                            {{ $caso->soporte->last_name }}
+                                        </td>
                                         <td>{{ $caso->tipo_servicio->area->name }}</td>
                                         <td>{{ $caso->tipo_servicio->name }}</td>
                                         <td>{{ $caso->description }}</td>
@@ -52,6 +58,11 @@
                                             <br>
                                             <a href="javascript:void(0);" onclick="cargarAdjuntos({{ $caso->id }})"
                                                 class="text-info">({{ count($caso->archivos) }})Adjuntos</a>
+                                            @if (Auth::user()->user_rol_id == 1)
+                                                <br>
+                                                <a href="javascript:void(0);" onclick="asignarCaso({{ $caso->id }})"
+                                                    class="text-warning">Asignar</a>
+                                            @endif
                                             @if (Auth::user()->user_rol_id == 4)
                                                 <br>
                                                 <a href="{{ url('edit_caso', $caso->id) }}" class="text-warning">Editar</a>
@@ -74,6 +85,7 @@
     </div>
     @include('casos.seguimientos')
     @include('casos.adjuntos')
+    @include('casos.asignar_caso')
     <script>
         var caso_actual = 0;
         $(document).ready(function() {
@@ -224,6 +236,11 @@
             }, function() {
 
             });
+        }
+
+        function asignarCaso(caso_id) {
+            $("#txt_caso_id").val(caso_id);
+            $('#modal_asignar_caso').modal('show');
         }
     </script>
 @endsection
