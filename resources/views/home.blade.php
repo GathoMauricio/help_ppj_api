@@ -17,6 +17,19 @@
                         <div style="float: right;">
                             {{ $casos->links('pagination::bootstrap-4') }}
                         </div>
+                        <div style="width:300px">
+                            <select onchange="filtrarArea(this.value);" class ="form-select">
+                                <option value="">--Seleccione el área--</option>
+                                @foreach ($areas as $key => $area)
+                                    @if ($selected_area == $area->id)
+                                        <option value="{{ $area->id }}" selected>{{ $area->name }}</option>
+                                    @else
+                                        <option value="{{ $area->id }}">{{ $area->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <br>
                         <table class="table table-stripped">
                             <thead>
                                 <tr>
@@ -57,11 +70,15 @@
                                                 class="text-primary">({{ count($caso->seguimientos) }})Seguimientos</a>
                                             <br>
                                             <a href="javascript:void(0);" onclick="cargarAdjuntos({{ $caso->id }})"
-                                                class="text-info">({{ count($caso->archivos) }})Adjuntos</a>
+                                                class="text-primary">({{ count($caso->archivos) }})Adjuntos</a>
                                             @if (Auth::user()->user_rol_id == 1)
                                                 <br>
                                                 <a href="javascript:void(0);" onclick="asignarCaso({{ $caso->id }})"
-                                                    class="text-warning">Asignar</a>
+                                                    class="text-primary">Asignar</a>
+                                                <br>
+                                                <a href="javascript:void(0);"
+                                                    onclick="cambiarEstatus({{ $caso->id }},{{ $caso->status_id }})"
+                                                    class="text-primary">Cambiar estatus</a>
                                             @endif
                                             @if (Auth::user()->user_rol_id == 4)
                                                 <br>
@@ -73,6 +90,13 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @if (count($casos) <= 0)
+                                    <tr>
+                                        <td colspan="9" class="text-center">
+                                            <h5>No se encontraron registros</h5>
+                                        </td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                         <div style="float: right;">
@@ -86,6 +110,7 @@
     @include('casos.seguimientos')
     @include('casos.adjuntos')
     @include('casos.asignar_caso')
+    @include('casos.cambiar_estatus')
     <script>
         var caso_actual = 0;
         $(document).ready(function() {
@@ -241,6 +266,20 @@
         function asignarCaso(caso_id) {
             $("#txt_caso_id").val(caso_id);
             $('#modal_asignar_caso').modal('show');
+        }
+
+        function filtrarArea(area_id) {
+            if (area_id.length > 0) {
+                window.location = "{{ url('home') }}/" + area_id;
+            } else {
+                window.location = "{{ url('home') }}/";
+            }
+        }
+
+        function cambiarEstatus(case_id, status_id) {
+            $("#txt_caso_id_cambiar_estatus").val(case_id);
+            $("#cbo_status_id").val(status_id);
+            $("#modal_cambiar_estatus").modal('show');
         }
     </script>
 @endsection

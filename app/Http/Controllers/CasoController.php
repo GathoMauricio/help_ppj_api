@@ -421,4 +421,22 @@ class CasoController extends Controller
             return redirect()->back()->with('message', 'Ocurrió un error al asignar el caso');
         }
     }
+
+    public function cambiarEstatus(Request $request)
+    {
+        $caso = Caso::findOrFail($request->caso_id);
+        $caso->status_id = $request->status_id;
+        if ($caso->save()) {
+            $data = [
+                'case_id' => $caso->case_id,
+                'num_case' => $caso->num_case,
+                'estatus' => $request->estatus,
+                'user_contact_id' => $caso->user_contact_id
+            ];
+            NotificacionController::notificacionCambioEstatuso($data);
+            return redirect()->back()->with('message', 'El estatus cambió con éxito.');
+        } else {
+            return redirect()->back()->with('message', 'Error al actualizar el estatus.');
+        }
+    }
 }

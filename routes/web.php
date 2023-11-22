@@ -16,7 +16,7 @@ Auth::routes(['register' => false]);
 //     return view('auth.login');
 // })->name('/');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home/{selected_area?}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('generar_password/{token}', [\App\Http\Controllers\UserController::class, 'generarPassword']);
 Route::get('show_caso/{}', [App\Http\Controllers\CasoController::class, 'show']);
 Route::get('create_caso', [App\Http\Controllers\CasoController::class, 'create']);
@@ -45,6 +45,7 @@ Route::get('index_reportes', [App\Http\Controllers\ReportesController::class, 'i
 Route::post('generar_reporte', [App\Http\Controllers\ReportesController::class, 'generarReporte']);
 
 Route::put('asignar_caso', [App\Http\Controllers\CasoController::class, 'asignarCaso']);
+Route::put('cambiar_estatus_caso', [App\Http\Controllers\CasoController::class, 'cambiarEstatus']);
 
 Route::any('/', function () {
 })->name('/');
