@@ -202,9 +202,9 @@ class CasoController extends Controller
         $caso->status_id = $this->estatusToId($request->estatus);
         if ($caso->save()) {
             $data = [
-                'case_id' => $caso->case_id,
+                'case_id' => $caso->id,
                 'num_case' => $caso->num_case,
-                'estatus' => $request->estatus,
+                'estatus' => $caso->estatus->name,
                 'user_contact_id' => $caso->user_contact_id
             ];
             NotificacionController::notificacionCambioEstatuso($data);
@@ -428,11 +428,12 @@ class CasoController extends Controller
         $caso->status_id = $request->status_id;
         if ($caso->save()) {
             $data = [
-                'case_id' => $caso->case_id,
+                'case_id' => $caso->id,
                 'num_case' => $caso->num_case,
-                'estatus' => $request->estatus,
+                'estatus' => $caso->estatus->name,
                 'user_contact_id' => $caso->user_contact_id
             ];
+            \Log::debug($data);
             NotificacionController::notificacionCambioEstatuso($data);
             return redirect()->back()->with('message', 'El estatus cambió con éxito.');
         } else {
