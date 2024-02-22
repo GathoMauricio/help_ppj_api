@@ -18,6 +18,17 @@ class NotificacionController extends Controller
             $q->where('user_rol_id', 1);
             $q->orWhere('user_rol_id', 2);
         })->get();
+
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Nuevo caso', 'data' => $data], function ($mail) use ($users) {
+            $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
+            $emails = $users->pluck('email');
+            $to = [];
+            foreach ($emails as $email) {
+                $to[] = $email;
+            }
+            $mail->to($to);
+        });
+
         $tokens = $users->pluck('fcm_token');
         $array_tokens = [];
         foreach ($tokens as $token) {
@@ -41,6 +52,15 @@ class NotificacionController extends Controller
             $q->orWhere('user_rol_id', 2);
             $q->orWhere('id', $data['user_contact_id']);
         })->get();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Nuevo seguimiento', 'data' => $data], function ($mail) use ($users) {
+            $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
+            $emails = $users->pluck('email');
+            $to = [];
+            foreach ($emails as $email) {
+                $to[] = $email;
+            }
+            $mail->to($to);
+        });
         $tokens = $users->pluck('fcm_token');
         $array_tokens = [];
         foreach ($tokens as $token) {
@@ -63,6 +83,15 @@ class NotificacionController extends Controller
             $q->orWhere('user_rol_id', 2);
             $q->orWhere('id', $data['user_contact_id']);
         })->get();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Nuevo archivo adjunto', 'data' => $data], function ($mail) use ($users) {
+            $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
+            $emails = $users->pluck('email');
+            $to = [];
+            foreach ($emails as $email) {
+                $to[] = $email;
+            }
+            $mail->to($to);
+        });
         $tokens = $users->pluck('fcm_token');
         $array_tokens = [];
         foreach ($tokens as $token) {
@@ -87,6 +116,15 @@ class NotificacionController extends Controller
             $q->orWhere('user_rol_id', 2);
             $q->orWhere('id', $data['user_contact_id']);
         })->get();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Se cambió el estatus del caso', 'data' => $data], function ($mail) use ($users) {
+            $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
+            $emails = $users->pluck('email');
+            $to = [];
+            foreach ($emails as $email) {
+                $to[] = $email;
+            }
+            $mail->to($to);
+        });
         $tokens = $users->pluck('fcm_token');
         $array_tokens = [];
         foreach ($tokens as $token) {
