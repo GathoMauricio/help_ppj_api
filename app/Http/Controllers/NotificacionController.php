@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Kutia\Larafirebase\Facades\Larafirebase;
 use App\Models\User;
+use App\Models\Caso;
 
 class NotificacionController extends Controller
 {
@@ -18,8 +19,9 @@ class NotificacionController extends Controller
             $q->where('user_rol_id', 1);
             $q->orWhere('user_rol_id', 2);
         })->get();
-
-        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Nuevo caso', 'data' => $data], function ($mail) use ($users) {
+        $caso = Caso::where('num_case', $data['num_case'])->first();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'nuevo_caso', 'caso' => $caso], function ($mail) use ($users) {
+            $mail->subject("Nuevo caso");
             $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
             $emails = $users->pluck('email');
             $to = [];
@@ -52,7 +54,9 @@ class NotificacionController extends Controller
             $q->orWhere('user_rol_id', 2);
             $q->orWhere('id', $data['user_contact_id']);
         })->get();
-        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Nuevo seguimiento', 'data' => $data], function ($mail) use ($users) {
+        $caso = Caso::where('num_case', $data['num_case'])->first();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'nuevo_seguimiento', 'caso' => $caso], function ($mail) use ($users) {
+            $mail->subject("Nuevo seguimiento");
             $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
             $emails = $users->pluck('email');
             $to = [];
@@ -83,7 +87,9 @@ class NotificacionController extends Controller
             $q->orWhere('user_rol_id', 2);
             $q->orWhere('id', $data['user_contact_id']);
         })->get();
-        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Nuevo archivo adjunto', 'data' => $data], function ($mail) use ($users) {
+        $caso = Caso::where('num_case', $data['num_case'])->first();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'nuevo_archivo', 'caso' => $caso], function ($mail) use ($users) {
+            $mail->subject("Nuevo archivo");
             $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
             $emails = $users->pluck('email');
             $to = [];
@@ -116,7 +122,9 @@ class NotificacionController extends Controller
             $q->orWhere('user_rol_id', 2);
             $q->orWhere('id', $data['user_contact_id']);
         })->get();
-        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'Se cambió el estatus del caso', 'data' => $data], function ($mail) use ($users) {
+        $caso = Caso::where('num_case', $data['num_case'])->first();
+        \Mail::send('emails.notificacion', ['tipo_notificacion' => 'cambio_estatus', 'caso' => $caso], function ($mail) use ($users) {
+            $mail->subject("Cambio de estatus");
             $mail->from('help_desk_pj@soporte.com', env('APP_NAME'));
             $emails = $users->pluck('email');
             $to = [];

@@ -356,7 +356,7 @@ class CasoController extends Controller
 
         if ($seguimiento) {
             $data = [
-                'case_id' => $seguimiento->caso->case_id,
+                'case_id' => $seguimiento->caso->id,
                 'num_case' => $seguimiento->caso->num_case,
                 'body' => $seguimiento->body,
                 'user_contact_id' => $seguimiento->caso->user_contact_id,
