@@ -41,6 +41,6 @@ class DumpMysql extends Command
             ->setDbName(\Config::get('app.bd_name'))->setUserName(\Config::get('app.bd_user'))
             ->setPassword(\Config::get('app.bd_password'))
             ->dumpToFile(\Config::get('app.app_route') . 'storage/dump_db/dump_' . \Config::get('app.bd_name') . '.sql');
-        \Log::info("Base de datos creada..." . date('Y-m-d'));
+        //\Log::info("Base de datos creada..." . date('Y-m-d'));
     }
 }
