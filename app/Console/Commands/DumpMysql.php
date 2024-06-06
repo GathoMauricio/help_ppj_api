@@ -18,7 +18,7 @@ class DumpMysql extends Command
      *
      * @var string
      */
-    protected $description = 'Dump full database';
+    protected $description = 'Dump full database and upload to google cloud storage';
 
     /**
      * Create a new command instance.
@@ -37,10 +37,13 @@ class DumpMysql extends Command
      */
     public function handle()
     {
+        //DUPM DATABASE
         \Spatie\DbDumper\Databases\MySql::create()
             ->setDbName(\Config::get('app.bd_name'))->setUserName(\Config::get('app.bd_user'))
             ->setPassword(\Config::get('app.bd_password'))
             ->dumpToFile(\Config::get('app.app_route') . 'storage/dump_db/dump_' . \Config::get('app.bd_name') . '.sql');
-        //\Log::info("Base de datos creada..." . date('Y-m-d'));
+        //GET CURRENT DUMP AND UPLOAD TO GCS
+        $disk = \Storage::disk('gcs');
+        $disk->put("dump_" . \Config::get('app.bd_name') . ".sql", \File::get(storage_path('dump_db/dump_' . \Config::get('app.bd_name') . '.sql')));
     }
 }
