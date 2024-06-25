@@ -86,7 +86,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    @if (Auth::user()->user_rol_id == 1)
+                                    @if (Auth::user()->user_rol_id == 1 || Auth::user()->user_rol_id == 4)
                                         <a class="dropdown-item" href="{{ url('index_usuarios') }}">
                                             Usuarios
                                         </a>
