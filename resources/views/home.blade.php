@@ -80,6 +80,11 @@
                                                     onclick="cambiarEstatus({{ $caso->id }},{{ $caso->status_id }})"
                                                     class="text-primary">Cambiar estatus</a>
                                             @endif
+                                            @if (Auth::user()->user_rol_id == 2)
+                                                <br>
+                                                <a href="{{ url('edit_caso', $caso->id) }}" class="text-warning">Editar</a>
+                                                <br>
+                                            @endif
                                             @if (Auth::user()->user_rol_id == 4)
                                                 <br>
                                                 <a href="{{ url('edit_caso', $caso->id) }}" class="text-warning">Editar</a>

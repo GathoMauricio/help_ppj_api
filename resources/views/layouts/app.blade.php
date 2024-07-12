@@ -118,6 +118,24 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <div id="box_roles">
+            <ul>
+                <li>{{ Auth::user()->rol->name }}</li>
+            </ul>
+        </div>
+        <style>
+            #box_roles {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                background-color: black;
+                color: white;
+                padding-top: 5px;
+                padding-right: 5px;
+                font-weight: bold;
+                opacity: 40%;
+            }
+        </style>
     </div>
 </body>
 
