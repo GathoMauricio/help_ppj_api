@@ -20,6 +20,6 @@ class AppController extends Controller
     {
         //return response()->download(storage_path('app/public/android_app/mesa_ayuda_' . env('ANDROID_VERSION') . '.apk'));
         Download::create(['ip' => $request->ip(), 'version' => '0.0.6']);
-        return response()->download(storage_path('app/public/android_app/mesa_ayuda_0_0_5.apk'));
+        return response()->download(storage_path('app/public/android_app/mesa_ayuda_0_0_6.apk'));
     }
 }
