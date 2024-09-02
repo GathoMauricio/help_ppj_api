@@ -16,7 +16,7 @@ class IsAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->user_rol_id == 1) {
+        if (auth()->user()->user_rol_id == 1 || auth()->user()->user_rol_id == 4) {
             return $next($request);
         }
         return redirect('/');
