@@ -31,7 +31,7 @@ Route::post('store_adjunto', [App\Http\Controllers\CasoController::class, 'store
 
 Route::get('api-obtener-tipos-servicio', [\App\Http\Controllers\TipoServicioController::class, 'apiObtenerTiposServicio']);
 
-Route::get('index_usuarios', [App\Http\Controllers\UserController::class, 'index'])->name('index_usuarios')->middleware(App\Http\Middleware\IsAdminMiddleware::class);
+Route::get('index_usuarios', [App\Http\Controllers\UserController::class, 'index'])->name('index_usuarios')->middleware(App\Http\Middleware\IsSuperAdminMiddlemare::class);
 Route::get('create_usuarios', [App\Http\Controllers\UserController::class, 'create'])->middleware(App\Http\Middleware\IsSuperAdminMiddlemare::class);
 Route::post('store_usuarios', [App\Http\Controllers\UserController::class, 'store'])->middleware(App\Http\Middleware\IsSuperAdminMiddlemare::class);
 Route::get('edit_usuarios/{id}', [App\Http\Controllers\UserController::class, 'edit'])->middleware(App\Http\Middleware\IsSuperAdminMiddlemare::class);
@@ -47,8 +47,7 @@ Route::post('generar_reporte', [App\Http\Controllers\ReportesController::class, 
 Route::put('asignar_caso', [App\Http\Controllers\CasoController::class, 'asignarCaso']);
 Route::put('cambiar_estatus_caso', [App\Http\Controllers\CasoController::class, 'cambiarEstatus']);
 
-Route::any('/', function () {
-})->name('/');
+Route::any('/', function () {})->name('/');
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect('home');
